@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StopWatch</title>
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+    .stopwatch{
+        border: 2px solid black;
+        height: 200px;
+        width: 200px;
+        position: fixed;
+        text-align: center;
+        border-radius: 15px;
+    }
+    .controls button{
+        padding: 10px 20px;
+        margin-top: 40px;
+        color: white;
+        background-color: green;
+        border: none;
+        cursor: pointer;
+        border-radius: 10px;
+        
+    }
+    .controls button:hover {
+    background-color: #45a049;
+}
+</style>
+<body>
+    <!-- <div class="body1"> -->
+    <div class="stopwatch">
+        <h1>StopWatch</h1>
+        <div id="time" class="time-display">00:00:00</div>
+        <div class="controls">
+            <button id="startStop" onclick="startStop()">Start</button>
+            <button id="reset" onclick="reset()">Reset</button>
+        </div>
+    <!-- </div> -->
+</div>
+</body>
+<script>
+    
+let timer;
+let isRunning = false;
+let seconds = 0;
+let minutes = 0;
+let hours = 0;
+
+const timeDisplay = document.getElementById('time');
+const startStopButton = document.getElementById('startStop');
+
+function startStop() {
+    if (isRunning) {
+        clearInterval(timer);
+        startStopButton.textContent = "Start";
+    } else {
+        timer = setInterval(updateTime, 1000);
+        startStopButton.textContent = "Stop";
+    }
+    isRunning = !isRunning;
+}
+
+function updateTime() {
+    seconds++;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+    }
+    if (minutes >= 60) {
+        minutes = 0;
+        hours++;
+    }
+    
+    const formattedTime = formatTime(hours) + ":" + formatTime(minutes) + ":" + formatTime(seconds);
+    timeDisplay.textContent = formattedTime;
+}
+
+function reset() {
+    clearInterval(timer);
+    isRunning = false;
+    seconds = 0;
+    minutes = 0;
+    hours = 0;
+    timeDisplay.textContent = "00:00:00";
+    startStopButton.textContent = "Start";
+}
+
+function formatTime(time) {
+    return time < 10 ? "0" + time : time;
+}
+
+</script>
+</html>
